@@ -1,0 +1,37 @@
+import streamlit as st
+import pandas as pd
+
+from tab_placares import get_dates, show_placares
+from tab_stats import plot_stats
+from tab_notas import best_of_month, plot_notas
+
+# xls = pd.ExcelFile('Streamlit/Dashboard Pelada/data.xlsx')
+xls = pd.ExcelFile('data.xlsx')
+
+notas = pd.read_excel(xls, 'notas')
+placares = pd.read_excel(xls, 'placares')
+
+st.title(':soccer: Pelada de toda quarta :soccer:')
+
+plac, stats, nts = st.tabs(['Placares', 'Estatísticas', 'Notas'])
+
+with plac:
+    (placares, dates) = get_dates(placares)
+    date = st.selectbox('Selecione a semana', dates)
+
+    if date == 'Todas':
+        for d in dates[1:]:
+            st.markdown(f'# {d}')
+            show_placares(placares, d)
+    else:
+        show_placares(placares, date)
+
+with stats:
+    plot_stats(placares)
+
+
+with nts:
+    df_notas = notas.copy()
+
+    best_of_month(df_notas)
+    plot_notas(df_notas)
