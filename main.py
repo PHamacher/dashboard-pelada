@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from tab_placares import get_dates, show_placares
-from tab_stats import plot_stats
+from tab_stats import plot_stats, artilharia
 from tab_notas import best_of_month, plot_notas
 
 # xls = pd.ExcelFile('Streamlit/Dashboard Pelada/data.xlsx')
@@ -10,6 +10,7 @@ xls = pd.ExcelFile('data.xlsx')
 
 notas = pd.read_excel(xls, 'notas')
 placares = pd.read_excel(xls, 'placares')
+art = pd.read_excel(xls, 'artilharia')
 
 st.title(':soccer: Pelada de toda quarta :soccer:')
 
@@ -28,7 +29,7 @@ with plac:
 
 with stats:
     plot_stats(placares)
-
+    artilharia(art)
 
 with nts:
     df_notas = notas.copy()

@@ -77,3 +77,13 @@ def plot_stats(placares):
 
     st.markdown('## Gráfico')
     st.plotly_chart(fig)
+
+def artilharia(art):
+    df = art.loc[:,['Jogador','Gols']]
+    df = df.sort_values(by='Gols', ascending=False)
+    df = df.reset_index(drop=True)
+    df.index += 1
+
+    st.markdown('## Artilharia')
+    st.text('Nota: Apenas 20% dos gols até 9/10 foram contabilizados')
+    st.dataframe(df)
