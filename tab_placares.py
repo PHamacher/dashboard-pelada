@@ -25,9 +25,9 @@ def show_placares(placares, date):
     st.markdown(text_white)
 
 
-    match1_text = f"#### :red_circle:  {plac_date.iloc[0,:]['A']} x {plac_date.iloc[0,:]['B']} :large_blue_circle:" + f"({plac_date.iloc[0,:]['Jogos']} jogos)"
-    match2_text = f"#### :large_blue_circle:  {plac_date.iloc[1,:]['A']} x {plac_date.iloc[1,:]['B']} :white_circle: " + f"({plac_date.iloc[1,:]['Jogos']} jogos)"
-    match3_text = f"#### :white_circle:  {plac_date.iloc[2,:]['A']} x {plac_date.iloc[2,:]['B']} :red_circle:" + f"({plac_date.iloc[2,:]['Jogos']} jogos)"
+    match1_text = f"#### :red_circle:  {plac_date.iloc[0,:]['A']} x {plac_date.iloc[0,:]['B']} :large_blue_circle:" + f" ({plac_date.iloc[0,:]['Jogos']} jogos)"
+    match2_text = f"#### :large_blue_circle:  {plac_date.iloc[1,:]['A']} x {plac_date.iloc[1,:]['B']} :white_circle:" + f" ({plac_date.iloc[1,:]['Jogos']} jogos)"
+    match3_text = f"#### :white_circle:  {plac_date.iloc[2,:]['A']} x {plac_date.iloc[2,:]['B']} :red_circle:" + f" ({plac_date.iloc[2,:]['Jogos']} jogos)"
 
 
     st.markdown(match1_text)
