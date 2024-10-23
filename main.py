@@ -7,11 +7,17 @@ from tab_notas import best_of_month, plot_notas
 from tab_optimization import bate_times
 
 # xls = pd.ExcelFile('Streamlit/Dashboard Pelada/data.xlsx')
-xls = pd.ExcelFile('data/data.xlsx')
 
-notas = pd.read_excel(xls, 'notas')
-placares = pd.read_excel(xls, 'placares')
-art = pd.read_excel(xls, 'artilharia')
+@st.cache_data
+def load_data():
+    xls = pd.ExcelFile('data/data.xlsx')
+    notas = pd.read_excel(xls, 'notas')
+    placares = pd.read_excel(xls, 'placares')
+    art = pd.read_excel(xls, 'artilharia')
+
+    return notas, placares, art
+
+notas, placares, art = load_data()
 
 st.title(':soccer: Pelada de toda quarta :soccer:')
 
