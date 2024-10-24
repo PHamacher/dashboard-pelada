@@ -41,7 +41,7 @@ with plac:
 
 with stats:
     plot_stats(placares)
-    artilharia(art)
+    artilharia(art, notas)
 
 with nts:
     df_notas = notas.copy()

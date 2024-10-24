@@ -78,9 +78,12 @@ def plot_stats(placares):
     st.markdown('## Gráfico')
     st.plotly_chart(fig)
 
-def artilharia(art):
-    df = art.loc[:,['Jogador','Gols oficiais', 'Gols (total)']]
-    df = df.sort_values(by=['Gols oficiais', 'Gols (total)'], ascending=False)
+def artilharia(art, notas):
+    art['Jogos oficiais'] = notas.iloc[:, 20:-5].count(axis=1) # fazer usando o índice das colunas
+    art['Gols/j'] = round(art['Gols oficiais'] / art['Jogos oficiais'], 2)
+    df = art.loc[:,['Jogador','Gols oficiais', 'Jogos oficiais', 'Gols/j', 'Gols (total)']]
+    
+    df = df.sort_values(by=['Gols oficiais', 'Gols/j', 'Gols (total)'], ascending=False)
     df = df.reset_index(drop=True)
     df.index += 1
 
