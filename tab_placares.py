@@ -6,7 +6,8 @@ def get_dates(placares):
     placares['Data str'] = pd.to_datetime(placares['Data']).dt.strftime('%d/%m/%Y')
     dates = placares['Data str'].unique()
     dates = dates[dates != '12/06/2024'] # Dia dos Namorados, não tinham 3 times
-    dates = np.insert(dates, 0, 'Todas')
+    dates = np.append(dates, 'Todas')
+    dates = dates[::-1]
     return (placares, dates)
 
 def show_placares(placares, date):
