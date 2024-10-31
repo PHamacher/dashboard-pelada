@@ -13,9 +13,9 @@ def get_dates(placares):
 def show_placares(placares, date):
     plac_date = placares[placares['Data str'] == date]
 
-    red_team = plac_date.iloc[0, 2:8].dropna().values
-    blue_team = plac_date.iloc[1, 2:8].dropna().values
-    white_team = plac_date.iloc[2, 2:8].dropna().values
+    red_team = np.sort(plac_date.iloc[0, 2:8].dropna().values)
+    blue_team = np.sort(plac_date.iloc[1, 2:8].dropna().values)
+    white_team = np.sort(plac_date.iloc[2, 2:8].dropna().values)
 
     text_red = '#### :red_circle: ' + ', '.join(red_team)
     text_blue = '#### :large_blue_circle: ' + ', '.join(blue_team)

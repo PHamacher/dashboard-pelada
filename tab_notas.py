@@ -7,6 +7,7 @@ def best_of_month(notas):
     # st.table(notas)
 
     st.markdown("## Melhor do mês - Hall da Fama")
+    st.text('Nota: Para ser elegível, o jogador não pode ter faltado mais do que 1 pelada no mês')
     df_notas = notas.copy()
 
     bools = df_notas.iloc[0].notnull()
