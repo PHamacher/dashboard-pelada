@@ -10,7 +10,8 @@ def best_of_month(notas):
     st.text('Nota: Para ser elegível, o jogador não pode ter faltado mais do que 1 pelada no mês')
     df_notas = notas.copy()
 
-    bools = df_notas.iloc[0].notnull()
+    idx_hamacher = np.where(df_notas['Jogador'] == 'Hamacher')[0][0]
+    bools = df_notas.iloc[idx_hamacher].notnull()
     idxs = bools[bools].index[1:-4]
     dates = pd.to_datetime(idxs, format='%b/%y')
 
