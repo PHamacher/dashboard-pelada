@@ -11,7 +11,11 @@ def best_of_month(notas):
     df_notas = notas.copy()
 
     idx_hamacher = np.where(df_notas['Jogador'] == 'Hamacher')[0][0]
-    bools = df_notas.iloc[idx_hamacher].notnull()
+    idx_spohr = np.where(df_notas['Jogador'] == 'Spohr')[0][0]
+    bools_hamacher = df_notas.iloc[idx_hamacher].notnull()
+    bools_spohr = df_notas.iloc[idx_spohr].notnull()
+    # Either Hamacher or Spohr were in each pelada, get the union of the two
+    bools = bools_hamacher | bools_spohr
     idxs = bools[bools].index[1:-4]
     dates = pd.to_datetime(idxs, format='%b/%y')
 
