@@ -10,7 +10,7 @@ from tab_optimization import bate_times
 
 @st.cache_data
 def load_data():
-    xls = pd.ExcelFile('data/data.xlsx')
+    xls = pd.ExcelFile('data/condominio.xlsx')
     notas = pd.read_excel(xls, 'notas')
     placares = pd.read_excel(xls, 'placares')
     art = pd.read_excel(xls, 'artilharia')
