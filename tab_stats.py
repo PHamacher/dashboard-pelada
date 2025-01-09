@@ -64,7 +64,8 @@ def plot_stats(placares):
 
     df_stats = df_stats.sort_values(by=['SG', '%', 'P'], ascending=False)
 
-    min_partidas = st.slider('Mínimo de partidas', min_value=0, max_value=df_stats['P'].max(), value=10)
+    max_val = df_stats['P'].max()
+    min_partidas = st.slider('Mínimo de partidas', min_value=0, max_value=max_val, value=min(max_val, 10))
     df_stats = df_stats[df_stats.P >= min_partidas]
     df_stats = df_stats.loc[:,['Nome', 'J (8 min)', 'P', 'V', 'E', 'D', '%', 'GP', 'GC', 'SG', 'GP/jogo', 'GC/jogo']] # reordenar colunas
 
@@ -79,14 +80,20 @@ def plot_stats(placares):
     st.plotly_chart(fig)
 
 def artilharia(art, notas):
-    art['Peladas'] = notas.iloc[:, 20:-5].count(axis=1) # fazer usando o índice das colunas
-    art['Gols/j'] = round(art['Gols oficiais'] / art['Peladas'], 2)
-    df = art.loc[:,['Jogador','Gols oficiais', 'Peladas', 'Gols/j', 'Gols (total)']]
+    art.sort_values(by='Jogador', ascending=True, inplace=True)
+    art.reset_index(drop=True, inplace=True)
+    cols = art.columns
+    notas = notas[cols]
+    notas.sort_values(by=cols[0], ascending=True, inplace=True) # ordem alfabética dos jogadores
+    notas.reset_index(drop=True, inplace=True)
+    art['Gols'] = art.iloc[:, 1:].sum(axis=1)
+    art['Peladas'] = notas.count(axis=1) - 1
+    art['Gols/j'] = round(art['Gols'] / art['Peladas'], 2)
+    df = art.loc[:,['Jogador','Gols', 'Peladas', 'Gols/j']]
     
-    df = df.sort_values(by=['Gols oficiais', 'Gols/j', 'Gols (total)'], ascending=False)
+    df = df.sort_values(by=['Gols', 'Gols/j'], ascending=False)
     df = df.reset_index(drop=True)
     df.index += 1
 
     st.markdown('## Artilharia')
-    st.text('Nota: Gols até 9/10 são considerados não-oficiais (apenas 20% foram contabilizados)')
     st.dataframe(df)

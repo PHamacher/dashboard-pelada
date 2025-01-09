@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import datetime as dt
 
 def best_of_month(notas):
     # st.table(notas)
@@ -9,15 +10,11 @@ def best_of_month(notas):
     st.markdown("## Melhor do mês - Hall da Fama")
     st.text('Nota: Para ser elegível, o jogador não pode ter faltado mais do que 1 pelada no mês')
     df_notas = notas.copy()
-
-    idx_hamacher = np.where(df_notas['Jogador'] == 'Hamacher')[0][0]
-    idx_spohr = np.where(df_notas['Jogador'] == 'Spohr')[0][0]
-    bools_hamacher = df_notas.iloc[idx_hamacher].notnull()
-    bools_spohr = df_notas.iloc[idx_spohr].notnull()
-    # Either Hamacher or Spohr were in each pelada, get the union of the two
-    bools = bools_hamacher | bools_spohr
-    idxs = bools[bools].index[1:-4]
-    dates = pd.to_datetime(idxs, format='%b/%y')
+    
+    cols = df_notas.columns
+    new_cols = [c for c in cols if type(c) == dt.datetime]
+    df_notas = df_notas[['Jogador'] + new_cols]
+    dates = pd.to_datetime(df_notas.columns[1:], format='%b/%y')
 
     months = dates.month
 
@@ -33,11 +30,12 @@ def best_of_month(notas):
         df_month = df_month.sort_values(by=['Avg', 'Len'], ascending=False)
         nome_mes = dict_meses[m]
         dict_mvp[nome_mes] = df_month.iloc[0:3, :].loc[:, ['Jogador', 'Avg']]
-        text = f'#### {nome_mes} :first_place_medal: {df_month.iloc[0,0]} (em andamento)' if m == pd.unique(months)[-1] else f'#### {nome_mes} :trophy: {df_month.iloc[0,0]}'
+        in_progress = m == pd.unique(months)[-1] and dt.datetime.now().month == m
+        text = f'#### {nome_mes} :first_place_medal: {df_month.iloc[0,0]} (em andamento)' if in_progress else f'#### {nome_mes} :trophy: {df_month.iloc[0,0]}'
         st.markdown(text)
 
     st.markdown('## Pódio do mês')
-    mes = st.selectbox('Mês', [dict_meses[m] for m in pd.unique(months)], index = len(pd.unique(months)[:-1]) - 1)
+    mes = st.selectbox('Mês', [dict_meses[m] for m in pd.unique(months)], index = len(pd.unique(months)[:-1]))
     text1 = f'#### :first_place_medal: {dict_mvp[mes].iloc[0,0]} (Média {np.round(dict_mvp[mes].iloc[0,1], 2)})'
     text2 = f'#### :second_place_medal: {dict_mvp[mes].iloc[1,0]} (Média {np.round(dict_mvp[mes].iloc[1,1], 2)})'
     text3 = f'#### :third_place_medal: {dict_mvp[mes].iloc[2,0]} (Média {np.round(dict_mvp[mes].iloc[2,1], 2)})'
@@ -48,8 +46,13 @@ def best_of_month(notas):
 
 
 def plot_notas(df_notas):
+    cols = df_notas.columns
+    new_cols = [c for c in cols if type(c) == dt.datetime]
+    df_notas = df_notas[['Jogador'] + new_cols]
+
     st.markdown('## Gráfico')
-    df_notas['Média'] = np.round(df_notas['Média'], 2)
+    df_notas['Média'] = df_notas.iloc[:, 1:].mean(skipna=True, axis=1)
+    df_notas['Total'] = df_notas.iloc[:, 1:].count(axis=1) - 1
     fig = px.scatter(df_notas, x='Total', y='Média', hover_name='Jogador', text='Jogador')
     fig.update_traces(textposition='top center')
     fig.update_layout(title='Notas dos jogadores', xaxis_title='Jogos', yaxis_title='Nota média')
