@@ -110,10 +110,8 @@ def juntos(j1, j2, todos, P, solver, x):
 
 def select_players(dict_ovr):
     all_names = sorted(list(dict_ovr.keys()))
-    # default = ['Almeida', 'Coelho', 'Cout', 'Elabras', 'Felipe', 'Gugao', 'Hamacher', 'Joe', 'Joebo', 'Kas', 'Lucca', 'Mello', 'Pereira', 'Pig', 'Sommer', 'TT', 'Tulio', 'Yuri'] # mensalistas
-    default = ['Almeida', 'Coelho', 'Cout', 'Diego', 'Elabras', 'Gugao', 'Hamacher', 'Joe', 'Joebo', 'Kas', 'Lucca', 'Lucas', 'Mello', 'Octavio', 'Pig', 'TT', 'Tulio', 'Yuri'] # 23/10
     with st.expander('Selecione os jogadores'):
-        selected = st.multiselect('Quem vai jogar essa semana?:', all_names, default=default)
+        selected = st.multiselect('Quem vai jogar essa semana?:', all_names)
         return selected
 
 def positions(names, n_times):
