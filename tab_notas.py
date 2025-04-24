@@ -17,7 +17,10 @@ def best_of_month(notas):
     dates = pd.to_datetime(df_notas.columns[1:], format='%b/%y')
 
     months = dates.month
-
+    
+    dict_global_avg = {}
+    [dict_global_avg.update({df_notas.iloc[i, 0]: df_notas.iloc[i, 1:].mean(skipna=True)}) for i in range(len(df_notas))]
+    
     dict_meses = {1: 'Janeiro', 2: 'Fevereiro', 3: 'Março', 4: 'Abril', 5: 'Maio', 6: 'Junho', 7: 'Julho', 8: 'Agosto', 9: 'Setembro', 10: 'Outubro', 11: 'Novembro', 12: 'Dezembro'}
     dict_mvp = {}
     for m in pd.unique(months):
@@ -27,7 +30,8 @@ def best_of_month(notas):
         avg = df_month.iloc[:, 1:].mean(skipna=True, axis=1)
         df_month['Avg'] = avg
         df_month['Len'] = df_month.iloc[:, 1:].count(axis=1)
-        df_month = df_month.sort_values(by=['Avg', 'Len'], ascending=False)
+        df_month['Global Avg'] = df_month['Jogador'].map(dict_global_avg)
+        df_month = df_month.sort_values(by=['Avg', 'Len', 'Global Avg'], ascending=[False, False, True])
         nome_mes = dict_meses[m]
         dict_mvp[nome_mes] = df_month.iloc[0:3, :].loc[:, ['Jogador', 'Avg']]
         in_progress = m == pd.unique(months)[-1] and dt.datetime.now().month == m
