@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import datetime as dt
 
-from tab_placares import get_dates, show_placares
+from tab_placares import get_dates, show_placares, calc_aggregates
 from tab_stats import plot_stats, artilharia
 from tab_notas import best_of_month, plot_notas
 from tab_optimization import bate_times
@@ -47,6 +47,10 @@ with bt:
 
 
 with plac:
+    calc_aggregates(placares)
+
+    st.markdown('# Histórico')
+
     (placares, dates) = get_dates(placares)
     date = st.selectbox('Selecione a semana', dates)
 

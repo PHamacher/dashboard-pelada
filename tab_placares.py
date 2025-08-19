@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import datetime as dt
 
 def get_dates(placares):
     placares['Data str'] = pd.to_datetime(placares['Data']).dt.strftime('%d/%m/%Y')
@@ -34,3 +35,28 @@ def show_placares(placares, date):
     st.markdown(match1_text)
     st.markdown(match2_text)
     st.markdown(match3_text)
+
+def calc_aggregates(placares):
+    placares_color = placares[placares['Data'] > dt.datetime(2024, 6, 12)].copy()
+
+    n = placares_color.shape[0]
+    Va = placares_color.iloc[range(0,n,3),:].A.sum()
+    Av = placares_color.iloc[range(0,n,3),:].B.sum()
+    Ab = placares_color.iloc[range(1,n,3),:].A.sum()
+    Ba = placares_color.iloc[range(1,n,3),:].B.sum()
+    Bv = placares_color.iloc[range(2,n,3),:].A.sum()
+    Vb = placares_color.iloc[range(2,n,3),:].B.sum()
+
+    st.markdown('# Agregado')
+
+    st.markdown(f"#### :red_circle:  {Va} x {Av} :large_blue_circle:")
+    st.markdown(f"#### :large_blue_circle:  {Ab} x {Ba} :white_circle:")
+    st.markdown(f"#### :white_circle:  {Bv} x {Vb} :red_circle:")
+   
+    st.markdown('### Saldo')
+
+    st.markdown(f"#### :red_circle:  {Va + Vb - (Av + Bv)}")
+    st.markdown(f"#### :large_blue_circle:  {Av + Ab - (Va + Ba)}")
+    st.markdown(f"#### :white_circle:  {Ba + Bv - (Ab + Vb)}")
+
+    return
