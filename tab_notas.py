@@ -25,7 +25,7 @@ def best_of_month(notas):
     dict_mvp = {}
     for m in pd.unique(months):
         idx = np.where(months == m)[0]
-        df_month = df_notas.iloc[1:, np.concatenate(([0], idx + 1))]
+        df_month = df_notas.iloc[:, np.concatenate(([0], idx + 1))]
         df_month = df_month.dropna(thresh=len(df_month.columns) - 1)
         avg = df_month.iloc[:, 1:].mean(skipna=True, axis=1)
         df_month['Avg'] = avg
