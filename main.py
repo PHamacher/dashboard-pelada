@@ -11,7 +11,7 @@ from tab_optimization import bate_times
 
 st.title(':soccer: Pelada de toda quarta :soccer:')
 
-season = st.selectbox("Selecione a temporada", ['Todas', 2024, 2025], index=2)
+season = st.selectbox("Selecione a temporada", ['Todas', 2024, 2025, 2026], index=3)
 
 @st.cache_data
 def load_data(season):
