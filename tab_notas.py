@@ -35,14 +35,14 @@ def best_of_month(notas):
         nome_mes = dict_meses[m]
         dict_mvp[nome_mes] = df_month.iloc[0:3, :].loc[:, ['Jogador', 'Avg']]
         in_progress = m == pd.unique(months)[-1] and dt.datetime.now().month == m
-        text = f'#### {nome_mes} :first_place_medal: {df_month.iloc[0,0]} (em andamento)' if in_progress else f'#### {nome_mes} :trophy: {df_month.iloc[0,0]}'
+        text = f'#### {nome_mes} :first_place_medal: {df_month.iloc[0,0]} (em andamento)' if in_progress else f'#### {nome_mes} 🏆 {df_month.iloc[0,0]}'
         st.markdown(text)
 
     st.markdown('## Pódio do mês')
     mes = st.selectbox('Mês', [dict_meses[m] for m in pd.unique(months)], index = len(pd.unique(months)[:-1]))
-    text1 = f'#### :first_place_medal: {dict_mvp[mes].iloc[0,0]} (Média {np.round(dict_mvp[mes].iloc[0,1], 2)})'
-    text2 = f'#### :second_place_medal: {dict_mvp[mes].iloc[1,0]} (Média {np.round(dict_mvp[mes].iloc[1,1], 2)})'
-    text3 = f'#### :third_place_medal: {dict_mvp[mes].iloc[2,0]} (Média {np.round(dict_mvp[mes].iloc[2,1], 2)})'
+    text1 = f'#### 🥇 {dict_mvp[mes].iloc[0,0]} (Média {np.round(dict_mvp[mes].iloc[0,1], 2)})'
+    text2 = f'#### 🥈 {dict_mvp[mes].iloc[1,0]} (Média {np.round(dict_mvp[mes].iloc[1,1], 2)})'
+    text3 = f'#### 🥉 {dict_mvp[mes].iloc[2,0]} (Média {np.round(dict_mvp[mes].iloc[2,1], 2)})'
 
     st.markdown(text1)
     st.markdown(text2)
