@@ -35,7 +35,7 @@ def best_of_month(notas):
         nome_mes = dict_meses[m]
         dict_mvp[nome_mes] = df_month.iloc[0:3, :].loc[:, ['Jogador', 'Avg']]
         in_progress = m == pd.unique(months)[-1] and dt.datetime.now().month == m
-        text = f'#### {nome_mes} :first_place_medal: {df_month.iloc[0,0]} (em andamento)' if in_progress else f'#### {nome_mes} 🏆 {df_month.iloc[0,0]}'
+        text = f'#### {nome_mes} 🥇 {df_month.iloc[0,0]} (em andamento)' if in_progress else f'#### {nome_mes} 🏆 {df_month.iloc[0,0]}'
         st.markdown(text)
 
     st.markdown('## Pódio do mês')
