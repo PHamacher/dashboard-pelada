@@ -72,7 +72,7 @@ def plot_stats(placares):
     st.markdown('## Tabela')
     st.dataframe(df_stats, hide_index=True)
 
-    fig = px.scatter(df_stats, x='GP/jogo', y='GC/jogo', size='J (8 min)', color='SG', color_continuous_scale='RdYlGn', hover_name='Nome', text='Nome')
+    fig = px.scatter(df_stats.dropna(), x='GP/jogo', y='GC/jogo', size='J (8 min)', color='SG', color_continuous_scale='RdYlGn', hover_name='Nome', text='Nome')
     fig.update_traces(textposition='top center')
     fig.update_layout(title='Gols feitos e sofridos por jogo', xaxis_title='Gols feitos pelo time por jogo', yaxis_title='Gols sofridos pelo time por jogo')
 

@@ -6,7 +6,7 @@ import datetime as dt
 def get_dates(placares):
     placares['Data str'] = pd.to_datetime(placares['Data']).dt.strftime('%d/%m/%Y')
     dates = placares['Data str'].unique()
-    invalid_dates = ['12/06/2024', '30/10/2025'] # Dias sem 3 times
+    invalid_dates = ['12/06/2024', '30/10/2025', '03/06/2026'] # Dias sem 3 times
     dates = dates[~np.isin(dates, invalid_dates)]
     dates = np.append(dates, 'Todas')
     dates = dates[::-1]
